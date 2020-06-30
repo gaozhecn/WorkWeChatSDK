@@ -17,15 +17,15 @@ btn_reject = work_wechat.TaskCardBtn(key="key222", name="驳回", replace_name="
 btn_list = [btn_approve.to_dict(), btn_reject.to_dict()]
 
 task_card = work_wechat.TaskCard(
-    title="Jense的礼品申请",
+    title="zhangsan的礼品申请",
     url="https://qyapi.weixin.qq.com",
     task_id=task_id,
     description="礼品：A31茶具套装<br>用途：赠与小黑科技张总经理",
     btn=btn_list
 )
 
-touser = ('Jense',)
+touser = ('zhangsan',)
 ww.message_send(agentid=agentid, taskcard=task_card, touser=touser, msgtype="taskcard")
 
-userids = ('Jense', 'Tony')
+userids = ('zhangsan', 'Tony')
 ww.update_taskcard(agentid=agentid, task_id=task_id, clicked_key='key222', userids=userids)

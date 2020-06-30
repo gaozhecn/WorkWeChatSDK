@@ -79,9 +79,9 @@ OA数据接口 | TBD.
 
 注意：
 
-官方文档中「通过 corpid、 corpidsecret 生成 access_token」，
-corpsecret 其实是 自建或内置应用(agent) 对应的 Secret，起这个歧义名字会误导用户以为 corpidsecret 跟 corpid 对应；
-因为 应用可以有多个，所以 corpidsecret 在不同的上下文应用中，可能是不同的值。
+官方文档中「通过 corpid、 corpsecret 生成 access_token」，
+corpsecret 其实是 自建或内置应用(agent) 对应的 Secret，起这个歧义名字会误导用户以为 corpsecret 跟 corpid 对应；
+因为 应用可以有多个，所以 corpsecret 在不同的上下文应用中，可能是不同的值。
 
 
 例子：创建自定义讨论群组
@@ -148,6 +148,7 @@ corpsecret 其实是 自建或内置应用(agent) 对应的 Secret，起这个�
         # errcode 和 errmsg 分别对应接口响应中字段，ex.rs 为完整 HTTP response
         print(ex.errcode, ex.errmsg, ex.rs)
 
+
 例子：发送图文信息(https://work.weixin.qq.com/api/doc/90000/90135/90236)
 
     import os
@@ -156,7 +157,12 @@ corpsecret 其实是 自建或内置应用(agent) 对应的 Secret，起这个�
     
     corpid = os.environ.get("CORPID")
     corpsecret = os.environ.get("CORPSECRET")
-    agentid = os.environ.get("agentid")
+    agentid = os.environ.get("AGENTID")
+
+    ww = work_wechat.WorkWeChat(
+        corpid=corpid,
+        corpsecret=corpsecret,
+    )
 
     news_articles1 = work_wechat.NewsArticle(
         picurl="http://wwcdn.weixin.qq.com/node/wwnl/wwnl/style/images/independent/favicon/favicon_48h$c976bd14.png",
@@ -165,17 +171,35 @@ corpsecret 其实是 自建或内置应用(agent) 对应的 Secret，起这个�
         description="详情"
     )
 
-    touser = ('Jense',)
-    ww.message_send(agentid=agentid, msgtype="news", touser=touser, news_articles=(news_articles1))
+    touser = ('zhangsan',)
+
+    ww.message_send(
+        agentid=agentid,
+        msgtype=work_wechat.MsgType.NEWS,
+        touser=touser,
+        news_articles=(news_articles1),
+    )
     
     
 例子： 发送文本信息(https://work.weixin.qq.com/api/doc/90000/90135/90236)
-    
-    text_content = """ 你的快递已到，请携带工卡前往邮件中心领取。
-                   \n出发前可查看<a href=\"http://work.weixin.qq.com\">邮件中心视频实况</a>，聪明避开排队。"""
 
-    touser = ("Jense",)
-    ww.message_send(agentid=agentid, content=text_content, touser=touser, msgtype="text")
+    corpid = os.environ.get("CORPID")
+    corpsecret = os.environ.get("CORPSECRET")
+    agentid = os.environ.get("AGENTID")
+
+    text_content = """ 你的快递已到，请携带工卡前往邮件中心领取。\n出发前可查看<a href=\"http://work.weixin.qq.com\">邮件中心视频实况</a>，聪明避开排队。"""
+    touser = ("zhangsan",)
+
+    ww = work_wechat.WorkWeChat(
+        corpid=corpid,
+        corpsecret=corpsecret,
+    )
+    ww.message_send(
+        agentid=agentid,
+        mstype=work_wechat.MsgType.TEXT,
+        content=text_content,
+        touser=touser,
+    )
 
     
 
