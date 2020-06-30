@@ -97,7 +97,7 @@ corpsecret 其实是 自建或内置应用(agent) 对应的 Secret，起这个�
     ww = work_wechat.WorkWeChat(
         corpid=corpid,
         corpsecret=corpsecret,
-        debug=True, # 打印请求 URL
+        verbose=True, # 打印请求 URL
         http_timeout=5,
     )
 
